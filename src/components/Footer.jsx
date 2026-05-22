@@ -1,45 +1,76 @@
 import React from 'react'
-import { FaSquareXTwitter } from "react-icons/fa6";
-import { FaFacebook } from "react-icons/fa";
-import { CiLinkedin } from "react-icons/ci";
-import { FaGithubSquare } from "react-icons/fa";
+import { FaFacebook, FaGithubSquare, FaLinkedin, FaEnvelope } from 'react-icons/fa'
+import StationHeader from './StationHeader'
+
+const socials = [
+  { icon: <FaEnvelope     size={15} />, href: 'mailto:shamim36960@gmail.com',                      label: 'Gmail',    color: '#EA4335' },
+  { icon: <FaLinkedin     size={17} />, href: 'https://www.linkedin.com/in/shamim3696/',            label: 'LinkedIn', color: '#0A66C2' },
+  { icon: <FaFacebook     size={17} />, href: 'https://www.facebook.com/shamim3696/',               label: 'Facebook', color: '#1877F2' },
+  { icon: <FaGithubSquare size={17} />, href: 'https://github.com/shamim-code',                     label: 'GitHub',   color: '#e7e7e7' },
+]
 
 export default function Footer() {
   return (
-    <div className=" mt-5 py-2">
+    <section
+      id="Contact"
+      className="section"
+      style={{ background: 'linear-gradient(180deg,#0a0a0f 0%,#0d0d18 60%,#0a0a0f 100%)' }}
+    >
+      <div className="max-w-2xl mx-auto">
+        <StationHeader code="05" name="Contact" color="#7c3aed" />
 
-      <h1 className='text-[#FFAE02] my-5 uppercase text-center underline font-bold'>Contact</h1>
+        {/* Intro */}
+        <p
+          data-aos="fade-up"
+          className="mb-10 leading-relaxed"
+          style={{ fontSize: '16px', color: 'rgba(255,255,255,0.45)', maxWidth: '440px' }}
+        >
+          Open to new opportunities and collaborations.
+          Let's build something great together.
+        </p>
 
-      <div data-aos="flip-left" className=' flex justify-center'>
-      <div className='flex flex-col justify-center gap-2 w-[250px] mx-1 sm:w-[300px] md:w-[500px] lg:w-[600px]'>
+        {/* Socials */}
+        <div data-aos="fade-up" className="divider mb-8" />
 
-        <input className="pl-2 rounded-md outline-none" type="text" placeholder='Email' />
-        <input className="pl-2 rounded-md outline-none" type="text" placeholder="Whatsapp number" />
-        <input className="pl-2 rounded-md outline-none" type="text" placeholder="Subject" />
-
-        <textarea className='h-20 rounded-md p-2 outline-none' placeholder='Message'></textarea>
-
-        <button className=' bg-[#FFAE02] rounded-md hover:outline hover:outline-yellow-500 hover:bg-transparent text-white duration-200' type="submit">SEND</button>
-
-
+        <div className="flex flex-wrap gap-3">
+          {socials.map((s, i) => (
+            <a
+              key={i}
+              href={s.href}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2 transition-all duration-200"
+              style={{
+                padding:      '8px 14px',
+                borderRadius: '8px',
+                fontSize:     '13px',
+                color:        'rgba(255,255,255,0.45)',
+                border:       '1px solid rgba(255,255,255,0.07)',
+                background:   'rgba(255,255,255,0.02)',
+                textDecoration: 'none',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.color       = s.color
+                e.currentTarget.style.borderColor = `${s.color}30`
+                e.currentTarget.style.background  = `${s.color}0a`
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.color       = 'rgba(255,255,255,0.45)'
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
+                e.currentTarget.style.background  = 'rgba(255,255,255,0.02)'
+              }}
+            >
+              {s.icon}
+              <span>{s.label}</span>
+            </a>
+          ))}
         </div>
+
+        {/* Footer line */}
+        <p className="mt-12 text-xs" style={{ color: 'rgba(255,255,255,0.15)' }}>
+          © 2025 Shamim Al Mamun · Backend Software Engineer
+        </p>
       </div>
-
-        <div className='Footer flex justify-between px-5 mt-5 b'>
-
-          <div className="text-white uppercase">Shamim @ 2024</div>
-
-          <div className='flex gap-2'>
-            <a href='https://twitter.com/Shamim3696'><FaSquareXTwitter data-aos="zoom-out-up" style={{display:"inline" , color:"white",backgroundColor:"black" ,fontSize:"22px"}} /></a>
-            <a href='https://www.facebook.com/MMM.SSS.Shamim'><FaFacebook data-aos="zoom-out-left" style={{display:"inline" , color:"blue",borderRadius:"10px",backgroundColor:"white" ,fontSize:"22px"}} /></a>
-            <a href='https://www.linkedin.com/in/shamim-al-mamun-8a2959204/'><CiLinkedin data-aos="zoom-out-left" style={{display:"inline" ,borderRadius:"2px", color:"blue", backgroundColor:'white' ,fontSize:"20px"}} /></a>
-            <a href='https://github.com/shamim-code'><FaGithubSquare data-aos="zoom-out-left" style={{display:"inline" , color:"white",backgroundColor:'black' ,fontSize:"24px"}} /></a>
-
-          </div>
-
-
-        </div>
-      
-    </div>
+    </section>
   )
 }

@@ -1,40 +1,53 @@
 import React from 'react'
-import { SiPostman } from "react-icons/si";
-import { TbBrandVscode } from "react-icons/tb";
-import { FaGithub,FaFigma } from "react-icons/fa";
+import { SiPostman, SiDocker, SiRedis, SiAmazonaws, SiNestjs, SiApachekafka, SiPostgresql, SiMongodb } from 'react-icons/si'
+import { TbBrandVscode } from 'react-icons/tb'
+import { FaGithub, FaNodeJs } from 'react-icons/fa'
+import { VscTerminalBash } from 'react-icons/vsc'
+
+const tools = [
+  { name: 'Node.js',    icon: <FaNodeJs        size={22} />, color: '#68A063' },
+  { name: 'NestJS',     icon: <SiNestjs        size={20} />, color: '#E0234E' },
+  { name: 'AWS',        icon: <SiAmazonaws     size={20} />, color: '#FF9900' },
+  { name: 'Kafka',      icon: <SiApachekafka   size={18} />, color: '#aaa'    },
+  { name: 'Redis',      icon: <SiRedis         size={20} />, color: '#DC382D' },
+  { name: 'Docker',     icon: <SiDocker        size={20} />, color: '#2496ED' },
+  { name: 'PostgreSQL', icon: <SiPostgresql    size={18} />, color: '#336791' },
+  { name: 'MongoDB',    icon: <SiMongodb       size={20} />, color: '#4DB33D' },
+  { name: 'VS Code',    icon: <TbBrandVscode   size={20} />, color: '#3498db' },
+  { name: 'Postman',    icon: <SiPostman       size={18} />, color: '#e67e22' },
+  { name: 'GitHub',     icon: <FaGithub        size={18} />, color: '#e7e7e7' },
+  { name: 'Terminal',   icon: <VscTerminalBash size={18} />, color: '#4EC9B0' },
+]
 
 export default function Tools() {
   return (
-    <div className=' bg-slate-950 '>
-        <h1 className="text-[#FFAE02] my-5 uppercase text-center underline font-bold">The tools which I used for development.</h1>
-
-        <div className=' flex justify-center'>
-            <div className='flex justify-around gap-1 md:w-[600px]'>
-
-                <div className=" bg-slate-300 inline-block rounded-full px-2">
-                        <FaFigma style={{display:"inline" , color:"blue" ,fontSize:"20px"}} />
-                        <p className=' inline-block'>Figma</p>
-                </div>
-
-
-                <div className=" bg-slate-300 inline-block rounded-full px-2">
-                    <TbBrandVscode style={{display:"inline" , color:"#3498db" ,fontSize:"20px"}} />
-                    <p className=' inline-block'>VS Code</p>
-                </div>
-
-                <div className=" bg-slate-300 inline-block rounded-full px-2">
-                    <FaGithub style={{display:"inline" , color:"black" ,fontSize:"20px"}} />
-                    <p className=' inline-block'>Github</p>
-                </div>
-
-                <div className=" bg-slate-300 inline-block rounded-full px-2">
-                    <SiPostman style={{display:"inline" , color:"#e67e22" ,fontSize:"20px"}} />
-                    <p className=' inline-block'>Postman</p>
-                </div>
+    <section
+      id="Tools"
+      className="section"
+      style={{ paddingTop: '60px', paddingBottom: '60px', background: '#0a0a0f' }}
+    >
+      <div className="max-w-3xl mx-auto">
+        <p className="label mb-6">Tools & Platforms</p>
+        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-6 gap-3">
+          {tools.map((t, i) => (
+            <div
+              key={i}
+              data-aos="fade-up"
+              data-aos-delay={i * 35}
+              className="card flex flex-col items-center gap-2 p-3 cursor-default hover-lift"
+              style={{ borderRadius: '12px' }}
+            >
+              <span style={{ color: t.color }}>{t.icon}</span>
+              <span
+                className="text-center leading-tight"
+                style={{ fontSize: '10px', color: 'rgba(255,255,255,0.38)', lineHeight: 1.3 }}
+              >
+                {t.name}
+              </span>
             </div>
+          ))}
         </div>
-        
-      
-    </div>
+      </div>
+    </section>
   )
 }
