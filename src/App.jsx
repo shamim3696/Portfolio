@@ -25,9 +25,9 @@ const STATIONS = [
 ]
 
 /* Vertical spacing constants (px) for the sidebar train */
-const STATION_TOP    = 124   // y of first station dot center
-const STATION_STEP   = 52    // gap between station dot centers
-const TRAIN_H        = 16    // height of train indicator
+const STATION_STEP   = 52                    // gap between station dot centers
+const STATION_TOP    = STATION_STEP / 2      // first dot center, relative to nav top
+const TRAIN_H        = 16                    // height of train indicator
 
 /* ── Left sidebar ────────────────────────────────────────── */
 function Sidebar({ active }) {
@@ -63,7 +63,7 @@ function Sidebar({ active }) {
           className="absolute"
           style={{
             left:       '33px',
-            top:        `${STATION_TOP - STATION_STEP / 2}px`,
+            top:        `${STATION_TOP}px`,
             height:     `${(STATIONS.length - 1) * STATION_STEP}px`,
             width:      '1px',
             background: 'linear-gradient(to bottom, rgba(6,182,212,0.25), rgba(124,58,237,0.15), transparent)',
@@ -134,7 +134,7 @@ function Sidebar({ active }) {
       {/* Bottom */}
       <div className="px-7 pb-6 shrink-0">
         <p className="text-xs" style={{ color: 'rgba(255,255,255,0.15)' }}>
-          © 2025 Shamim
+          © {new Date().getFullYear()} Shamim
         </p>
       </div>
     </aside>

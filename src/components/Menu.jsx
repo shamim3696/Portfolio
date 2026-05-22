@@ -109,7 +109,7 @@ export default function Menu() {
           style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '16px' }}
         >
           <p className="text-xs" style={{ color: 'rgba(255,255,255,0.18)' }}>
-            © 2025 Shamim Al Mamun
+            © {new Date().getFullYear()} Shamim Al Mamun
           </p>
         </div>
       </motion.aside>

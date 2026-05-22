@@ -68,7 +68,7 @@ export default function Footer() {
 
         {/* Footer line */}
         <p className="mt-12 text-xs" style={{ color: 'rgba(255,255,255,0.15)' }}>
-          © 2025 Shamim Al Mamun · Backend Software Engineer
+          © {new Date().getFullYear()} Shamim Al Mamun · Backend Software Engineer
         </p>
       </div>
     </section>
