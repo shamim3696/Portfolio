@@ -4,7 +4,7 @@ import StationHeader from './StationHeader'
 const experiences = [
   {
     company:   'Taghyeer Technologies',
-    sub:       'Dream Emirates Products · Dubai',
+    sub:       'Sector 16, Uttara, Dhaka',
     role:      'Backend Software Engineer',
     period:    'April 2025 – Present',
     duration:  '1+ Year',
@@ -22,7 +22,7 @@ const experiences = [
   },
   {
     company:   'Softvence Agency',
-    sub:       '',
+    sub:       'Block F, Banasree, Rampura, Dhaka',
     role:      'MERN Stack Developer',
     period:    '2024 – Early 2025',
     duration:  '5 months',
