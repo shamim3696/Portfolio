@@ -5,6 +5,7 @@ const HomeSection       = lazy(() => import('./sections/HomeSection'))
 const AboutSection      = lazy(() => import('./sections/AboutSection'))
 const SkillsSection     = lazy(() => import('./sections/SkillsSection'))
 const ExperienceSection = lazy(() => import('./sections/ExperienceSection'))
+const EducationSection  = lazy(() => import('./sections/EducationSection'))
 const ProjectsSection   = lazy(() => import('./sections/ProjectsSection'))
 const ContactSection    = lazy(() => import('./sections/ContactSection'))
 
@@ -13,6 +14,7 @@ const SECTION_MAP = {
   about:      <AboutSection />,
   skills:     <SkillsSection />,
   experience: <ExperienceSection />,
+  education:  <EducationSection />,
   projects:   <ProjectsSection />,
   contact:    <ContactSection />,
 }

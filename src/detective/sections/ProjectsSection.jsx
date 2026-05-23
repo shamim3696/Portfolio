@@ -41,7 +41,7 @@ export default function ProjectsSection() {
     <div className="det-section">
       <div className="det-file-header" style={{ borderColor: '#ff3a3a' }}>
         <span className="det-stamp" style={{ color: '#ff3a3a', borderColor: '#ff3a3a' }}>EVIDENCE VAULT</span>
-        <span className="det-file-num">FILE-04 · ACTIVE OPERATIONS</span>
+        <span className="det-file-num">FILE-05 · ACTIVE OPERATIONS</span>
       </div>
 
       <h2 className="det-section-title">CASE OPERATIONS</h2>

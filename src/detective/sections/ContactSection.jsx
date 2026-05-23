@@ -47,7 +47,7 @@ export default function ContactSection() {
     <div className="det-section">
       <div className="det-file-header" style={{ borderColor: '#ffb347' }}>
         <span className="det-stamp" style={{ color: '#ffb347', borderColor: '#ffb347' }}>SECURE COMMS</span>
-        <span className="det-file-num">FILE-05 · CONTACT PROTOCOL</span>
+        <span className="det-file-num">FILE-06 · CONTACT PROTOCOL</span>
       </div>
 
       <h2 className="det-section-title">COMMUNICATION TERMINAL</h2>
