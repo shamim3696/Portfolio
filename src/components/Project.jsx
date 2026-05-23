@@ -72,7 +72,7 @@ export const projects = [
     ],
     tags:       ['Node.js', 'Socket.io', 'MongoDB', 'JWT', 'React.js'],
     livelink:   'https://samchat99.netlify.app',
-    githublink: 'https://github.com/shamim-code/ChatApplication',
+    githublink: 'https://github.com/shamim3696/ChatApplication',
   },
 ]
 

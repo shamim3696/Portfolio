@@ -6,7 +6,7 @@ const socials = [
   { icon: <FaEnvelope     size={15} />, href: 'mailto:shamim36960@gmail.com',                      label: 'Gmail',    color: '#EA4335' },
   { icon: <FaLinkedin     size={17} />, href: 'https://www.linkedin.com/in/shamim3696/',            label: 'LinkedIn', color: '#0A66C2' },
   { icon: <FaFacebook     size={17} />, href: 'https://www.facebook.com/shamim3696/',               label: 'Facebook', color: '#1877F2' },
-  { icon: <FaGithubSquare size={17} />, href: 'https://github.com/shamim-code',                     label: 'GitHub',   color: '#e7e7e7' },
+  { icon: <FaGithubSquare size={17} />, href: 'https://github.com/shamim3696',                     label: 'GitHub',   color: '#e7e7e7' },
 ]
 
 export default function Footer() {

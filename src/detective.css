@@ -1,0 +1,1203 @@
+/* ============================================================
+   DETECTIVE PORTFOLIO — NOIR CSS SYSTEM
+   ============================================================ */
+
+/* ── Reset / root ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.det-root {
+  position: fixed;
+  inset: 0;
+  background: #06040a;
+  overflow: hidden;
+  font-family: 'Courier New', Courier, monospace;
+  color: rgba(220, 210, 195, 0.92);
+}
+
+/* ── Layer stack ──────────────────────────────────────────── */
+.det-scene-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.det-ui-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  pointer-events: none;
+}
+
+.det-ui-layer > * { pointer-events: auto; }
+
+/* ── Film grain (SVG noise) ───────────────────────────────── */
+.det-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  animation: det-grain-shift 0.15s steps(1) infinite;
+}
+
+@keyframes det-grain-shift {
+  0%   { background-position: 0 0; }
+  20%  { background-position: -40px 20px; }
+  40%  { background-position: 20px -30px; }
+  60%  { background-position: -10px 50px; }
+  80%  { background-position: 30px -10px; }
+  100% { background-position: 0 0; }
+}
+
+/* ── Scanlines ────────────────────────────────────────────── */
+.det-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+}
+
+/* ── Vignette ─────────────────────────────────────────────── */
+.det-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.72) 100%);
+}
+
+/* ── Intro overlay ────────────────────────────────────────── */
+.det-intro {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: opacity 0.8s ease;
+}
+
+.det-intro.det-intro-fade {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.det-intro-line {
+  font-size: clamp(0.72rem, 1.5vw, 0.9rem);
+  letter-spacing: 0.18em;
+  color: rgba(255, 179, 71, 0.9);
+  text-transform: uppercase;
+  min-height: 1.4em;
+  animation: det-type-in 0.6s ease forwards;
+}
+
+@keyframes det-type-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.det-intro-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: rgba(255,179,71,0.45);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.det-intro-shield {
+  font-size: 1.4rem;
+  color: rgba(255,179,71,0.7);
+}
+
+.det-intro-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 100px;
+}
+
+.det-intro-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(0.72rem, 1.5vw, 0.88rem);
+  letter-spacing: 0.16em;
+  color: rgba(255,179,71,0.85);
+  text-transform: uppercase;
+}
+
+.det-intro-line--hero {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: rgba(220,210,195,0.95);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.det-intro-prompt {
+  color: rgba(0,255,136,0.6);
+  margin-right: 4px;
+}
+
+.det-intro-skip {
+  position: absolute;
+  bottom: 32px;
+  right: 36px;
+  background: none;
+  border: 1px solid rgba(255,179,71,0.3);
+  color: rgba(255,179,71,0.6);
+  font-family: inherit;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  padding: 6px 14px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+.det-intro-skip:hover { color: #ffb347; border-color: rgba(255,179,71,0.7); }
+
+/* ── Nav panel ────────────────────────────────────────────── */
+.det-nav {
+  width: 220px;
+  flex-shrink: 0;
+  height: 100%;
+  background: rgba(6, 4, 10, 0.85);
+  border-right: 1px solid rgba(255,179,71,0.12);
+  backdrop-filter: blur(14px);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+.det-nav-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 16px 14px;
+  border-bottom: 1px solid rgba(255,179,71,0.1);
+}
+
+.det-nav-logo {
+  font-size: 1.1rem;
+  color: #ffb347;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.det-nav-agency {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  color: rgba(255,179,71,0.75);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.det-nav-sub {
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  color: rgba(220,210,195,0.3);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.det-nav-divider {
+  height: 1px;
+  background: rgba(255,179,71,0.08);
+  margin: 6px 0;
+}
+
+.det-nav-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: rgba(220,210,195,0.3);
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 6px 16px 4px;
+}
+
+.det-nav-files {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 8px;
+}
+
+.det-file-btn {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-left: 3px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  transition: background 0.2s, border-left-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.det-file-btn:hover { background: rgba(255,255,255,0.06); }
+
+.det-file-active {
+  background: rgba(255,179,71,0.07) !important;
+  border-color: rgba(255,179,71,0.15);
+}
+
+.det-file-strip {
+  width: 4px;
+  align-self: stretch;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.det-file-body {
+  flex: 1;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.det-file-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.det-file-code {
+  font-size: 0.55rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.det-file-open {
+  font-size: 0.5rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border: 1px solid currentColor;
+  opacity: 0.7;
+}
+
+.det-file-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.det-file-arrow {
+  font-size: 0.55rem;
+  padding-right: 8px;
+  flex-shrink: 0;
+}
+
+.det-nav-footer {
+  padding: 10px 16px;
+  border-top: 1px solid rgba(255,179,71,0.08);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  color: rgba(220,210,195,0.25);
+  text-transform: uppercase;
+}
+
+.det-nav-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: rgba(0,255,136,0.7);
+  text-transform: uppercase;
+}
+
+/* ── Content panel ────────────────────────────────────────── */
+.det-content-panel {
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 28px 32px 40px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,179,71,0.2) transparent;
+  animation: det-panel-in 0.5s ease forwards;
+}
+
+.det-content-panel::-webkit-scrollbar { width: 4px; }
+.det-content-panel::-webkit-scrollbar-track { background: transparent; }
+.det-content-panel::-webkit-scrollbar-thumb { background: rgba(255,179,71,0.2); border-radius: 2px; }
+
+@keyframes det-panel-in {
+  from { opacity: 0; transform: translateX(18px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Loading dots ─────────────────────────────────────────── */
+.det-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 60px;
+}
+
+.det-loading-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,179,71,0.6);
+  animation: det-dot-bounce 0.8s ease-in-out infinite;
+}
+
+@keyframes det-dot-bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40%           { transform: scale(1);   opacity: 1;   }
+}
+
+/* ── Section base ─────────────────────────────────────────── */
+.det-section {
+  max-width: 740px;
+}
+
+/* ── File header ──────────────────────────────────────────── */
+.det-file-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid;
+  margin-bottom: 18px;
+  opacity: 0.7;
+}
+
+.det-stamp {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  padding: 3px 8px;
+  border: 1px solid;
+  text-transform: uppercase;
+}
+
+.det-file-num {
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  color: rgba(220,210,195,0.45);
+  text-transform: uppercase;
+  margin-left: auto;
+}
+
+/* ── Section title ────────────────────────────────────────── */
+.det-section-title {
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(220,210,195,0.95);
+  margin-bottom: 16px;
+}
+
+/* ── Body text ────────────────────────────────────────────── */
+.det-body-text {
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: rgba(220,210,195,0.65);
+  letter-spacing: 0.02em;
+}
+
+/* ── Divider ──────────────────────────────────────────────── */
+.det-divider {
+  height: 1px;
+  background: rgba(255,179,71,0.1);
+}
+
+/* ── Evidence label ───────────────────────────────────────── */
+.det-evidence-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: rgba(255,179,71,0.6);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* ── Redact bar ───────────────────────────────────────────── */
+.det-redact-bar {
+  background: rgba(255,58,58,0.08);
+  border: 1px solid rgba(255,58,58,0.2);
+  color: rgba(255,58,58,0.6);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  padding: 5px 12px;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+/* ── Hero (HomeSection) ───────────────────────────────────── */
+.det-hero-name {
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+
+.det-hero-w     { color: rgba(220,210,195,0.95); }
+.det-hero-amber { color: #ffb347; }
+
+.det-typewriter-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 4px;
+}
+
+.det-typewriter {
+  font-size: clamp(0.75rem, 2vw, 1rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(220,210,195,0.6);
+}
+
+.det-cursor {
+  color: #ffb347;
+  animation: det-blink 1.1s step-start infinite;
+}
+
+@keyframes det-blink { 50% { opacity: 0; } }
+
+.det-tech-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.det-tech-badge {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  border: 1px solid rgba(255,179,71,0.25);
+  color: rgba(255,179,71,0.75);
+  text-transform: uppercase;
+  background: rgba(255,179,71,0.04);
+}
+
+.det-evidence-tag {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: rgba(0,255,136,0.75);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.det-evidence-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00ff88;
+  flex-shrink: 0;
+}
+
+@keyframes det-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(0,255,136,0.5); }
+  60%     { box-shadow: 0 0 0 6px rgba(0,255,136,0); }
+}
+
+.det-cta-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.det-btn-primary {
+  padding: 9px 20px;
+  background: rgba(255,179,71,0.12);
+  border: 1px solid rgba(255,179,71,0.5);
+  color: #ffb347;
+  font-family: inherit;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.det-btn-primary:hover {
+  background: rgba(255,179,71,0.22);
+  border-color: #ffb347;
+}
+
+.det-btn-outline {
+  padding: 9px 20px;
+  background: transparent;
+  border: 1px solid rgba(220,210,195,0.2);
+  color: rgba(220,210,195,0.55);
+  font-family: inherit;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.det-btn-outline:hover {
+  border-color: rgba(220,210,195,0.45);
+  color: rgba(220,210,195,0.85);
+}
+
+/* ── About: profile grid ──────────────────────────────────── */
+.det-profile-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 18px;
+  border: 1px solid rgba(255,179,71,0.1);
+}
+
+.det-profile-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  padding: 7px 12px;
+  border-bottom: 1px solid rgba(255,179,71,0.07);
+  transition: background 0.15s;
+}
+
+.det-profile-row:last-child { border-bottom: none; }
+.det-profile-row:hover { background: rgba(255,179,71,0.04); }
+
+.det-profile-key {
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  color: rgba(255,179,71,0.55);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.det-profile-val {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: rgba(220,210,195,0.85);
+  text-transform: uppercase;
+}
+
+/* ── About: evidence block ────────────────────────────────── */
+.det-evidence-block {
+  background: rgba(255,179,71,0.04);
+  border-left: 2px solid rgba(255,179,71,0.3);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+
+/* ── Stats row ────────────────────────────────────────────── */
+.det-stats-row {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+}
+
+.det-stat {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,179,71,0.1);
+  border-right: none;
+  text-align: center;
+}
+
+.det-stat:last-child { border-right: 1px solid rgba(255,179,71,0.1); }
+
+.det-stat-val {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffb347;
+  letter-spacing: 0.06em;
+}
+
+.det-stat-key {
+  display: block;
+  font-size: 0.55rem;
+  letter-spacing: 0.16em;
+  color: rgba(220,210,195,0.4);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* ── Skill columns ────────────────────────────────────────── */
+.det-skill-cols {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.det-skill-cat {
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  color: rgba(220,210,195,0.45);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+/* ── Tag row ──────────────────────────────────────────────── */
+.det-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.det-tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  background: rgba(255,179,71,0.08);
+  border: 1px solid rgba(255,179,71,0.18);
+  color: rgba(255,179,71,0.75);
+  text-transform: uppercase;
+}
+
+.det-tag--dim {
+  background: rgba(220,210,195,0.05);
+  border-color: rgba(220,210,195,0.12);
+  color: rgba(220,210,195,0.45);
+}
+
+/* ── Skills: terminal ─────────────────────────────────────── */
+.det-terminal-line {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: 0.72rem;
+  margin-bottom: 6px;
+  background: rgba(0,0,0,0.3);
+  padding: 8px 12px;
+  border: 1px solid rgba(0,255,136,0.12);
+}
+
+.det-terminal-prompt { color: rgba(0,255,136,0.6); }
+.det-terminal-cmd    { color: rgba(220,210,195,0.65); }
+
+.det-terminal-output {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: rgba(0,255,136,0.55);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+/* ── Skills: tools grid ───────────────────────────────────── */
+.det-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+}
+
+.det-tool-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: background 0.2s, border-color 0.2s;
+  animation: det-fade-in 0.4s ease forwards;
+  opacity: 0;
+}
+
+.det-tool-card:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.12);
+}
+
+@keyframes det-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.det-tool-name {
+  flex: 1;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: rgba(220,210,195,0.8);
+  text-transform: uppercase;
+}
+
+.det-tool-level {
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* ── Experience: mission cards ────────────────────────────── */
+.det-missions {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.det-mission-card {
+  border: 1px solid rgba(255,255,255,0.07);
+  border-top: 2px solid;
+  background: rgba(0,0,0,0.22);
+  padding: 16px;
+  transition: background 0.2s;
+}
+
+.det-mission-card:hover { background: rgba(0,0,0,0.35); }
+
+.det-mission-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.det-mission-code {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.det-mission-role {
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(220,210,195,0.95);
+  margin-bottom: 2px;
+}
+
+.det-mission-org {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: rgba(220,210,195,0.6);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.det-mission-loc {
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: rgba(220,210,195,0.35);
+  text-transform: uppercase;
+}
+
+.det-mission-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.det-mission-status {
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid;
+}
+
+.det-status-active {
+  color: #00ff88;
+  border-color: rgba(0,255,136,0.3);
+  background: rgba(0,255,136,0.06);
+}
+
+.det-status-done {
+  color: rgba(220,210,195,0.45);
+  border-color: rgba(220,210,195,0.15);
+}
+
+.det-mission-period {
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: rgba(220,210,195,0.4);
+  text-transform: uppercase;
+}
+
+.det-mission-dur {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.det-clearance-badge {
+  font-size: 0.55rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  background: rgba(255,58,58,0.1);
+  border: 1px solid rgba(255,58,58,0.2);
+  color: rgba(255,58,58,0.6);
+}
+
+/* ── Objectives / evidence list ───────────────────────────── */
+.det-objectives {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.det-objectives li {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: rgba(220,210,195,0.7);
+  letter-spacing: 0.03em;
+}
+
+.det-obj-bullet {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Projects: case cards ─────────────────────────────────── */
+.det-cases {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.det-case-card {
+  border: 1px solid rgba(255,255,255,0.07);
+  border-left: 3px solid;
+  background: rgba(0,0,0,0.2);
+  overflow: hidden;
+  transition: background 0.2s;
+}
+
+.det-case-card:hover { background: rgba(0,0,0,0.35); }
+.det-case-card.det-case-open { background: rgba(0,0,0,0.35); }
+
+.det-case-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.det-case-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.det-case-lock { flex-shrink: 0; }
+
+.det-case-code {
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.det-case-name {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(220,210,195,0.9);
+}
+
+.det-case-right {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+}
+
+.det-case-org {
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: rgba(220,210,195,0.35);
+  text-transform: uppercase;
+  display: none;
+}
+
+.det-case-status {
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border: 1px solid;
+}
+
+.det-case-body {
+  padding: 0 14px 14px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: 0;
+  animation: det-case-expand 0.25s ease forwards;
+}
+
+@keyframes det-case-expand {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.det-case-sub {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 6px;
+  margin-top: 10px;
+}
+
+/* ── Contact: comm channels ───────────────────────────────── */
+.det-comm-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.det-comm-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.06);
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.det-comm-card:hover {
+  background: rgba(255,179,71,0.06);
+  border-color: rgba(255,179,71,0.2);
+}
+
+.det-comm-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  color: rgba(220,210,195,0.4);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.det-comm-value {
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: rgba(220,210,195,0.8);
+}
+
+.det-comm-arrow {
+  margin-left: auto;
+  font-size: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.det-comm-card:hover .det-comm-arrow { opacity: 1; }
+
+/* ── Contact form ─────────────────────────────────────────── */
+.det-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.det-form-row { display: flex; flex-direction: column; gap: 5px; }
+
+.det-form-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  color: rgba(255,179,71,0.55);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.det-form-input {
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(220,210,195,0.85);
+  font-family: inherit;
+  font-size: 0.76rem;
+  padding: 8px 11px;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: none;
+  letter-spacing: 0.04em;
+}
+
+.det-form-input::placeholder { color: rgba(220,210,195,0.25); }
+
+.det-form-input:focus {
+  border-color: rgba(255,179,71,0.4);
+  background: rgba(0,0,0,0.5);
+}
+
+.det-form-textarea { min-height: 90px; }
+
+.det-form-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255,179,71,0.1);
+  border: 1px solid rgba(255,179,71,0.35);
+  color: #ffb347;
+  font-family: inherit;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: flex-start;
+}
+
+.det-form-submit:hover {
+  background: rgba(255,179,71,0.2);
+  border-color: rgba(255,179,71,0.6);
+}
+
+.det-sent-confirm {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  background: rgba(0,255,136,0.05);
+  border: 1px solid rgba(0,255,136,0.15);
+}
+
+/* ── Availability row ─────────────────────────────────────── */
+.det-avail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(0,255,136,0.04);
+  border: 1px solid rgba(0,255,136,0.1);
+}
+
+/* ── Hamburger button (mobile only) ───────────────────────── */
+.det-hamburger {
+  display: none;
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 60;
+  flex-direction: column;
+  gap: 5px;
+  background: rgba(6,4,10,0.85);
+  border: 1px solid rgba(255,179,71,0.25);
+  padding: 9px 10px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.det-hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: rgba(255,179,71,0.8);
+}
+
+/* Mobile close button inside nav */
+.det-nav-mobile-close {
+  display: none;
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: rgba(220,210,195,0.5);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 2px 4px;
+  line-height: 1;
+}
+
+/* Mobile backdrop */
+.det-nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 29;
+  background: rgba(0,0,0,0.55);
+}
+
+/* Desktop nav */
+.det-nav-desktop { position: relative; z-index: 20; }
+
+/* Mobile nav */
+.det-nav-mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 30;
+  width: 240px !important;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (min-width: 600px) {
+  .det-case-org { display: block; }
+}
+
+@media (max-width: 640px) {
+  .det-mission-header { flex-direction: column; }
+  .det-mission-meta { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+  .det-content-panel { padding: 18px 16px 32px; }
+}
+
+@media (max-width: 540px) {
+  /* Hide desktop nav, show hamburger */
+  .det-nav-desktop { display: none !important; }
+  .det-hamburger { display: flex; }
+  .det-nav-mobile-close { display: block; }
+  .det-nav-backdrop { display: block; }
+
+  /* Content takes full width */
+  .det-ui-layer { display: block; }
+  .det-content-panel {
+    padding: 60px 14px 32px;
+    width: 100%;
+    height: 100%;
+  }
+}
