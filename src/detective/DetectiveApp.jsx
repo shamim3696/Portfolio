@@ -4,6 +4,7 @@ import DetectiveScene from './DetectiveScene'
 import IntroOverlay from './IntroOverlay'
 import NavPanel from './NavPanel'
 import ContentPanel from './ContentPanel'
+import DustMotes from './DustMotes'
 import '../detective.css'
 
 export default function DetectiveApp() {
@@ -19,6 +20,7 @@ export default function DetectiveApp() {
         <div className="det-grain" />
         <div className="det-scanlines" />
         <div className="det-vignette" />
+        <DustMotes />
 
         {/* UI layers */}
         <IntroOverlay />
